@@ -18,7 +18,8 @@ int ctr=0;
 
 char buffer[10];
 
-float CELSIUS, HUM, LIGHT;
+float CELSIUS, HUM;
+int LIGHT;
 
 String sensordata [6];
 void setup()
@@ -131,7 +132,7 @@ void LIG()
   Serial.print("L: ");
   Serial.print(LIGHT);Serial.println("\t");
   //sensordata[2] = String(LIGHT);
-  sensordata[2] = dtostrf(LIGHT, 5, 2, buffer);
+  sensordata[2] = String(LIGHT);
   delay(2000);
   lcd.clear();
 }
@@ -200,7 +201,7 @@ void PIR()
     sensordata[5] = "YES";
 
     digitalWrite(M1,HIGH);
-    for(k=0; k<3; k++) {
+    for(int k=0; k<3; k++) {
       lcd.clear();
       lcd.print("WARNING!!");
       lcd.setCursor(0,1);
@@ -259,6 +260,7 @@ void loop()
   Serial.println();
 
   if(ctr == 5){
+    printResult();
     displayName();
     ctr = 0;
   }
@@ -275,4 +277,17 @@ void displayName() {
   lcd.print("SMART TRACKER");
   delay(1000);
   lcd.clear();
+}
+
+
+void printResult() {
+  Serial.println("");
+  Serial.print("RESULT ");
+  Serial.print("T:"); Serial.print(sensordata[0]); Serial.print(",");
+  Serial.print("H:"); Serial.print(sensordata[1]); Serial.print(",");
+  Serial.print("L:"); Serial.print(sensordata[2]); Serial.print(",");
+  Serial.print("P:"); Serial.print(sensordata[3]); Serial.print(",");
+  Serial.print("R:"); Serial.print(sensordata[4]); Serial.print(",");
+  Serial.print("X:"); Serial.print(sensordata[5]); Serial.println("END");
+
 }
